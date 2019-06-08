@@ -11,7 +11,7 @@ Contributing
 This project is primarily maintained by `Crate.io`_, but we welcome community
 contributions!
 
-Consult the `developer docs`_ and the `contributor docs`_ for more information.
+See the `developer docs`_ and `contributor docs`_ for more information.
 
 
 Help
