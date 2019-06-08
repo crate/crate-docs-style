@@ -2,7 +2,7 @@
 Crate.io Documentation Style Guide
 ==================================
 
-A `Sphinx`_ theme for the `CrateDB documentation`_.
+An executable style guide for the `CrateDB documentation`_.
 
 
 Contributing
