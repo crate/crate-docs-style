@@ -2,7 +2,7 @@
 Crate.io Docs Test
 ==================
 
-Test configuration for the `Crate.io documentation`_.
+Test setup for the `Crate.io documentation`_.
 
 
 Contributing
