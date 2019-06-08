@@ -1,8 +1,8 @@
-==================================
-Crate.io Documentation Style Guide
-==================================
+=================
+Crate.io RST Lint
+=================
 
-An executable style guide for the `CrateDB documentation`_.
+RST linting for the `Crate.io documentation`_.
 
 
 Contributing
@@ -25,7 +25,7 @@ Looking for more help?
 .. _Code of Conduct: CONTRIBUTING.rst
 .. _contributor docs: CONTRIBUTING.rst
 .. _Crate.io: https://crate.io
-.. _CrateDB documentation: https://crate.io/docs/
+.. _Crate.io documentation: https://crate.io/docs/
 .. _developer docs: DEVELOP.rst
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
 .. _support channels: https://crate.io/support/
