@@ -1,8 +1,8 @@
-==================
-Crate.io Docs Test
-==================
+=========================
+Crate.io Docs Style Guide
+=========================
 
-Setup for testing for the `Crate.io documentation`_.
+Executable style guide for the `Crate.io documentation`_.
 
 
 Contributing
