@@ -1,8 +1,8 @@
-=================
-Crate.io RST Lint
-=================
+==================
+Crate.io Docs Test
+==================
 
-RST linting for the `Crate.io documentation`_.
+Test configuration for the `Crate.io documentation`_.
 
 
 Contributing
