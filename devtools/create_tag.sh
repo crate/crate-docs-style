@@ -22,7 +22,7 @@
 # Check if everything is committed
 CLEAN=`git status -s`
 if test ! -z "$CLEAN"; then
-   echo "Working directory not clean. Please commit all changes before tagging"
+   echo "Working directory not clean. Commit all changes before tagging."
    echo "Aborting."
    exit 1
 fi
@@ -32,26 +32,17 @@ git fetch origin > /dev/null
 
 REGEXP='^\d+\.+\d\.+\d - \d{4}/\d{2}/\d{2}$'
 VERSION=`grep -E "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
-echo "Found package version $VERSION"
+echo "Found version $VERSION."
 
 # Check if tag to create has already been created
 EXISTS=`git tag | grep $VERSION`
 
 if test "$VERSION" = "$EXISTS"; then
-   echo "Revision $VERSION already tagged."
-   echo "Aborting."
+   echo "Version $VERSION already tagged. Aborting."
    exit 1
 fi
 
-# Check if VERSION is in head of CHANGES.txt
-REV_NOTE=`grep "[0-9/]\{10\} $VERSION" CHANGES.txt`
-if test -z "$REV_NOTE"; then
-    echo "No notes for revision $VERSION found in CHANGES.txt"
-    echo "Aborting."
-    exit 1
-fi
-
 echo "Creating tag $VERSION..."
-git tag -a "$VERSION" -m "Tag release for revision $VERSION"
+git tag -a "$VERSION" -m "Tag version $VERSION"
 git push --tags
 echo "Done."
