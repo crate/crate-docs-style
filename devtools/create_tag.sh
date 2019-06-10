@@ -37,8 +37,8 @@ fi
 echo "Fetching origin..."
 git fetch origin > /dev/null
 
-# get the version
-VERSION=`python setup.py --version`
+REGEXP='^\d+\.+\d\.+\d - \d{4}\/\d{2}\/\d{2}$'
+VERSION=`grep -E '$REGEXP' CHANGES.rst | awk '{print $1}'`
 echo "Found package version $VERSION"
 
 # check if tag to create has already been created
