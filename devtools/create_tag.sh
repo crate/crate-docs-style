@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Licensed to Crate (https://crate.io) under one or more contributor
 # license agreements.  See the NOTICE file distributed with this work for
@@ -19,45 +19,36 @@
 # with Crate these terms will supersede the license and you may use the
 # software solely pursuant to the terms of the relevant commercial agreement.
 
-
-# Info: Be aware from where you are invoking this script due to relative paths.
-#       For example, 'gradlew' has to be in the same directory as where you are
-#       invoking this script from.
-#       E.g.: ../crate>./devtools/create_tag.sh
-
-# check if everything is committed
+# Check if everything is committed
 CLEAN=`git status -s`
-if [ ! -z "$CLEAN" ]
-then
+if test ! -z "$CLEAN"; then
    echo "Working directory not clean. Please commit all changes before tagging"
    echo "Aborting."
-   exit -1
+   exit 1
 fi
 
 echo "Fetching origin..."
 git fetch origin > /dev/null
 
-REGEXP='^\d+\.+\d\.+\d - \d{4}\/\d{2}\/\d{2}$'
-VERSION=`grep -E '$REGEXP' CHANGES.rst | awk '{print $1}'`
+REGEXP='^\d+\.+\d\.+\d - \d{4}/\d{2}/\d{2}$'
+VERSION=`grep -E "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
 echo "Found package version $VERSION"
 
-# check if tag to create has already been created
+# Check if tag to create has already been created
 EXISTS=`git tag | grep $VERSION`
 
-if [ "$VERSION" == "$EXISTS" ]
-then
+if test "$VERSION" = "$EXISTS"; then
    echo "Revision $VERSION already tagged."
    echo "Aborting."
-   exit -1
+   exit 1
 fi
 
-# check if VERSION is in head of CHANGES.txt
+# Check if VERSION is in head of CHANGES.txt
 REV_NOTE=`grep "[0-9/]\{10\} $VERSION" CHANGES.txt`
-if [ -z "$REV_NOTE" ]
-then
+if test -z "$REV_NOTE"; then
     echo "No notes for revision $VERSION found in CHANGES.txt"
     echo "Aborting."
-    exit -1
+    exit 1
 fi
 
 echo "Creating tag $VERSION..."
