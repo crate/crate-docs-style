@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 # Licensed to Crate (https://crate.io) under one or more contributor
 # license agreements.  See the NOTICE file distributed with this work for
