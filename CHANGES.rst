@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+0.0.1 - 2019/06/11
+==================
+
 - Add Makefile
 - Drop doc8 (buggy, inactive project)
 
