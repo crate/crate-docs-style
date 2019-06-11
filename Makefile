@@ -59,12 +59,9 @@ $(VALE):
 	@printf 'Please be patient!\033[00m\n'
 	'$(RETOOL)' $(RETOOLOPTS) sync
 
-.init-stamp: $(DOC8) $(VALE)
-	touch .init-stamp
-
 # We use $(ROOTDIR) to test all RST files, not just those under `docs`
 .PHONY: stylecheck
-stylecheck: .init-stamp
+test: $(DOC8) $(VALE)
 	'$(DOC8)'  $(DOC8OPTS) '$(ROOTDIR)'
 	'$(RETOOL)' $(RETOOLOPTS) do vale $(VALEOPTS) '$(ROOTDIR)'
 
