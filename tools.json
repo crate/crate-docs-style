@@ -1,0 +1,9 @@
+{
+  "Tools": [
+    {
+      "Repository": "github.com/errata-ai/vale",
+      "Commit": "e186cd4fe341a19d51148fa94d81fdc42bbcf9f9"
+    }
+  ],
+  "RetoolVersion": "1.3.7"
+}
