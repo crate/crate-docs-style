@@ -21,19 +21,15 @@
 
 # ROOTDIR must be set in the parent Makefile
 
-ENVDIR          = $(CURDIR)/.env
-PYTHON          = python3.7
-PIP             = $(ENVDIR)/bin/pip
-DOC8            = $(ENVDIR)/bin/doc8
-DOC8OPTS        = --config='$(CURDIR)/doc8/config.ini'
+STYLEDIR        = $(abspath $(CURDIR))
 GO              = go
-GOPATH          = $(CURDIR)/.go
+GOPATH          = $(STYLEDIR)/.go
 RETOOLREPO      = github.com/twitchtv/retool
 RETOOL          = $(GOPATH)/bin/retool
-TOOLSPATH       = $(CURDIR)/.tools
-RETOOLOPTS      = -base-dir='$(CURDIR)' -tool-dir='$(TOOLSPATH)'
+TOOLSPATH       = $(STYLEDIR)/.tools
+RETOOLOPTS      = -base-dir='$(STYLEDIR)' -tool-dir='$(TOOLSPATH)'
 VALE            = $(TOOLSPATH)/bin/vale
-VALEOPTS        = --config='$(CURDIR)/vale/config.ini'
+VALEOPTS        = --config '$(STYLEDIR)/_vale.ini'
 
 # Default target
 .PHONY: help
@@ -41,33 +37,28 @@ help:
 	@printf 'This Makefile is not supposed to be run manually.\n'
 	@exit 1;
 
-$(DOC8):
-	@if test ! -d '$(ROOTDIR)'; then \
-	    printf 'ROOTDIR has not been set.\n'; \
-	    exit 1; \
-	fi
-	'$(PYTHON)' -m venv '$(ENVDIR)'
-	'$(PIP)' install --upgrade pip
-	'$(PIP)' install -r '$(CURDIR)/requirements.txt'
-	# Delete third-party RST files from the Python venv, because we don't want
-	# to test them
-	find '$(ENVDIR)' -name '*.rst' -delete
-
 $(VALE):
 	'$(GO)' get $(RETOOLREPO)
 	@printf '\033[33mThis might take a few minutes. '
 	@printf 'Please be patient!\033[00m\n'
 	'$(RETOOL)' $(RETOOLOPTS) sync
 
-# We use $(ROOTDIR) to test all RST files, not just those under `docs`
-.PHONY: stylecheck
+.PHONY: test
 test: $(DOC8) $(VALE)
-	'$(DOC8)'  $(DOC8OPTS) '$(ROOTDIR)'
-	'$(RETOOL)' $(RETOOLOPTS) do vale $(VALEOPTS) '$(ROOTDIR)'
+	@if test ! -d '$(ROOTDIR)'; then \
+	    printf 'ROOTDIR has not been set.\n'; \
+	    exit 1; \
+	fi
+	@# 1. Start at the root of the repository
+	@# 2. Ignore dot directories
+	@# 3. Find all RST files
+	@# 4. Run through Vale
+	cd '$(ROOTDIR)' && find . \
+	    -not -path '*/\.*' \
+	    -name '*\.rst' -type f -print0 | xargs -0 \
+	        '$(RETOOL)' $(RETOOLOPTS) do vale $(VALEOPTS)
 
 .PHONY: clean
 clean:
-	rm -rf '$(ENVDIR)'
 	rm -rf '$(GOPATH)'
 	rm -rf '$(TOOLSPATH)'
-	rm -f .init-stamp
