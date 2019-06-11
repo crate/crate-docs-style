@@ -35,7 +35,7 @@ VERSION=`grep -E "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
 echo "Found version $VERSION."
 
 # Check if tag to create has already been created
-if test "$VERSION" = `git tag | grep $VERSION`; then
+if test "$VERSION" = "`git tag | grep $VERSION`"; then
    echo "Version $VERSION already tagged. Aborting."
    exit 1
 fi
