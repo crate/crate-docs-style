@@ -10,7 +10,7 @@ To create a new release, you must:
 
 - Add a section for the new version in the ``CHANGES.txt`` file
 
-- Commit your changes with a message like "Prepare release x.y.z"
+- Commit your changes with a message like "Prepare release X.Y.Z"
 
 - Push to ``origin``
 
