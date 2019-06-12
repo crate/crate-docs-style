@@ -19,46 +19,29 @@
 
 .EXPORT_ALL_VARIABLES:
 
-# ROOTDIR must be set in the parent Makefile
-
-STYLEDIR        = $(abspath $(CURDIR))
-GO              = go
-GOPATH          = $(STYLEDIR)/.go
-RETOOLREPO      = github.com/twitchtv/retool
-RETOOL          = $(GOPATH)/bin/retool
-TOOLSPATH       = $(STYLEDIR)/.tools
-RETOOLOPTS      = -base-dir='$(STYLEDIR)' -tool-dir='$(TOOLSPATH)'
-VALE            = $(TOOLSPATH)/bin/vale
-VALEOPTS        = --config '$(STYLEDIR)/_vale.ini'
+ROOTDIR  = $(abspath $(CURDIR))
 
 # Default target
 .PHONY: help
 help:
-	@printf 'This Makefile is not supposed to be run manually.\n'
-	@exit 1;
+	@printf 'Documentation Utils\n'
+	@echo
+	@printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
+	@echo
+	@printf '\033[34m  lint       \033[00m Lint the documentation\n'
+	@echo
+	@printf '\033[34m  clean      \033[00m Clean the lint files\n'
+	@echo
+	@printf '\033[34m  distclean  \033[00m Clean the build infrastructure\n'
 
-$(VALE):
-	'$(GO)' get $(RETOOLREPO)
-	@printf '\033[33mThis might take a few minutes. '
-	@printf 'Please be patient!\033[00m\n'
-	'$(RETOOL)' $(RETOOLOPTS) sync
-
-.PHONY: test
-test: $(DOC8) $(VALE)
-	@if test ! -d '$(ROOTDIR)'; then \
-	    printf 'ROOTDIR has not been set.\n'; \
-	    exit 1; \
-	fi
-	@# 1. Start at the root of the repository
-	@# 2. Ignore dot directories
-	@# 3. Find all RST files
-	@# 4. Run through Vale
-	cd '$(ROOTDIR)' && find . \
-	    -not -path '*/\.*' \
-	    -name '*\.rst' -type f -print0 | xargs -0 \
-	        '$(RETOOL)' $(RETOOLOPTS) do vale $(VALEOPTS)
+.PHONY: lint
+lint:
+	$(MAKE) -f rules.mk lint
 
 .PHONY: clean
 clean:
-	rm -rf '$(GOPATH)'
-	rm -rf '$(TOOLSPATH)'
+	$(MAKE) -f rules.mk clean
+
+.PHONY: distclean
+distclean:
+	$(MAKE) -f rules.mk distclean

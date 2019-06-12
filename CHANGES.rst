@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Implement lint file based testing approach
+
 0.0.1 - 2019/06/11
 ==================
 
