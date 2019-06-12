@@ -18,9 +18,6 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
-# We need this so we can use `tee`
-SHELL=/bin/bash -o pipefail
-
 .EXPORT_ALL_VARIABLES:
 
 GO              = go
@@ -31,7 +28,8 @@ RETOOL          = $(GODIR)/bin/retool
 TOOLSPATH       = .tools
 RETOOLOPTS      = -base-dir=. -tool-dir=$(TOOLSPATH)
 VALE            = $(TOOLSPATH)/bin/vale
-VALEOPTS        = --config=vale/config.ini
+LINT            = bin/lint
+FSWATCH         = fswatch
 
 # This file is designed so that it can be run from a any directory within a
 # project, so the ROOTDIR (i.e., where to look for RST files) must be set
@@ -57,6 +55,10 @@ help:
 	@ exit 1;
 
 $(VALE):
+	@ if test ! -x "`which $(GO)`"; then \
+	    printf '\033[31mYou must have Go installed.\033[00m\n'; \
+	    exit 1; \
+	fi
 	$(GO) get $(RETOOLREPO)
 	@ printf '\033[33mThis might take a few minutes. '
 	@ printf 'Please be patient!\033[00m\n'
@@ -64,14 +66,19 @@ $(VALE):
 
 # Lint an RST file and dump the output
 %.rst.lint: %.rst
-	@ printf 'Linting: \033[35m$<\033[00m\n'
-	@ echo '# Vale' > '$@'
-	@ printf "%0.s#" {1..79} >> '$@'
-	@ echo >> '$@'
-	$(VALE) $(VALEOPTS) '$<' | tee -a '$@'
+	$(LINT) '$<' '$@'
 
 .PHONY: lint
 lint: $(lint_targets)
+
+.PHONY: lintdev
+lintdev: lint
+	@ if test ! -x "`which $(FSWATCH)`"; then \
+	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
+	    exit 1; \
+	fi
+	@ printf '\033[33mWatching for changes...\033[00m\n'
+	@ $(FSWATCH) -0 $(source_files) | xargs -0 -I {} $(LINT) {}
 
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames

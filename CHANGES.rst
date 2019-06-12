@@ -7,6 +7,7 @@ Unreleased
 ==========
 
 - Implement lint file based testing approach
+- Add lintdev target using fswatch
 
 0.0.1 - 2019/06/11
 ==================

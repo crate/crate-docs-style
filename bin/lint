@@ -1,3 +1,5 @@
+#!/bin/sh -e
+
 # Licensed to Crate (https://crate.io) under one or more contributor license
 # agreements.  See the NOTICE file distributed with this work for additional
 # information regarding copyright ownership.  Crate licenses this file to you
@@ -17,39 +19,30 @@
 # these terms will supersede the license and you may use the software solely
 # pursuant to the terms of the relevant commercial agreement.
 
+if test ! -n "$VALE"; then
+    echo "VALE is not set."
+    exit 1
+fi
 
-.EXPORT_ALL_VARIABLES:
+SOURCE_FILE=$1
+LINT_FILE=$SOURCE_FILE.lint
 
-ROOTDIR  = $(abspath $(CURDIR))
+run_log () {
+    TMP_FILE=`mktemp /tmp/lint.XXXXXXXXXX` || exit 1
+    append_to_log () {
+        cat $TMP_FILE | tee -a $LINT_FILE
+    }
+    if $@ > $TMP_FILE; then
+        append_to_log
+    else
+        append_to_log
+        exit 1
+    fi
+}
 
-# Default target
-.PHONY: help
-help:
-	@ printf 'Documentation Utils\n'
-	@ echo
-	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
-	@ echo
-	@ printf '\033[34m  lint       \033[00m Lint the documentation\n'
-	@ echo
-	@ printf '\033[34m  lintdev    \033[00m Lint the documentation (and watch'
-	@ printf                              ' for changes)\n'
-	@ echo
-	@ printf '\033[34m  clean      \033[00m Clean the lint files\n'
-	@ echo
-	@ printf '\033[34m  distclean  \033[00m Clean the build infrastructure\n'
+printf "Linting: \033[35m$SOURCE_FILE\033[00m\n"
 
-.PHONY: lint
-lint:
-	$(MAKE) -f rules.mk lint
-
-.PHONY: lintdev
-lintdev:
-	$(MAKE) -f rules.mk lintdev
-
-.PHONY: clean
-clean:
-	$(MAKE) -f rules.mk clean
-
-.PHONY: distclean
-distclean:
-	$(MAKE) -f rules.mk distclean
+echo "# Vale" > $LINT_FILE
+printf "%0.s#" {1..79} >> $LINT_FILE
+echo >> $LINT_FILE
+run_log $VALE --config=vale/config.ini $SOURCE_FILE
