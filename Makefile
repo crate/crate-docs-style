@@ -17,6 +17,7 @@
 # these terms will supersede the license and you may use the software solely
 # pursuant to the terms of the relevant commercial agreement.
 
+
 .EXPORT_ALL_VARIABLES:
 
 ROOTDIR  = $(abspath $(CURDIR))
@@ -24,15 +25,15 @@ ROOTDIR  = $(abspath $(CURDIR))
 # Default target
 .PHONY: help
 help:
-	@printf 'Documentation Utils\n'
-	@echo
-	@printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
-	@echo
-	@printf '\033[34m  lint       \033[00m Lint the documentation\n'
-	@echo
-	@printf '\033[34m  clean      \033[00m Clean the lint files\n'
-	@echo
-	@printf '\033[34m  distclean  \033[00m Clean the build infrastructure\n'
+	@ printf 'Documentation Utils\n'
+	@ echo
+	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
+	@ echo
+	@ printf '\033[34m  lint       \033[00m Lint the documentation\n'
+	@ echo
+	@ printf '\033[34m  clean      \033[00m Clean the lint files\n'
+	@ echo
+	@ printf '\033[34m  distclean  \033[00m Clean the build infrastructure\n'
 
 .PHONY: lint
 lint:

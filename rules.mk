@@ -17,6 +17,7 @@
 # these terms will supersede the license and you may use the software solely
 # pursuant to the terms of the relevant commercial agreement.
 
+
 # We need this so we can use `tee`
 SHELL=/bin/bash -o pipefail
 
@@ -52,18 +53,18 @@ clean_targets = $(patsubst %,%.clean,$(lint_targets))
 # Default target
 .PHONY: help
 help:
-	@printf 'This Makefile is not supposed to be run manually.\n'
-	@exit 1;
+	@ printf 'This Makefile is not supposed to be run manually.\n'
+	@ exit 1;
 
 $(VALE):
 	$(GO) get $(RETOOLREPO)
-	@printf '\033[33mThis might take a few minutes. '
-	@printf 'Please be patient!\033[00m\n'
+	@ printf '\033[33mThis might take a few minutes. '
+	@ printf 'Please be patient!\033[00m\n'
 	$(RETOOL) $(RETOOLOPTS) sync
 
 # Lint an RST file and dump the output
 %.rst.lint: %.rst
-	@printf 'Linting: \033[35m$<\033[00m\n'
+	@ printf 'Linting: \033[35m$<\033[00m\n'
 	@ echo '# Vale' > '$@'
 	@ printf "%0.s#" {1..79} >> '$@'
 	@ echo >> '$@'
@@ -75,8 +76,8 @@ lint: $(lint_targets)
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames
 %.clean:
-	@# Fake the output so it's more readable
-	@filename=`echo $@ | sed s,.clean$$,,` && \
+	@ # Fake the output so it's more readable
+	@ filename=`echo $@ | sed s,.clean$$,,` && \
 	    rm -f "$$filename" && \
 	    echo rm -f "$$filename"
 
