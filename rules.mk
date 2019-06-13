@@ -22,7 +22,7 @@
 
 ENV_DIR      := .env
 ENV_BIN      := $(ENV_DIR)/bin
-PYTHON       := python3.7
+PYTHON       := python3
 PIP          := $(ENV_BIN)/pip
 RST2HTML     := $(ENV_BIN)/rst2html.py
 PATH         := $(ENV_BIN):$(PATH) # Put rst2html on the PATH for Vale
@@ -72,9 +72,12 @@ help:
 	@ exit 1;
 
 $(RST2HTML):
-	'$(PYTHON)' -m venv '$(ENV_DIR)'
-	'$(PIP)' install --upgrade pip
-	'$(PIP)' install -r 'requirements.txt'
+	$(PYTHON) -m venv $(ENV_DIR) --without-pip --system-site-packages
+	cd $(ENV_DIR) && \
+	    . bin/activate && \
+	    curl -O https://bootstrap.pypa.io/get-pip.py && \
+	    $(PYTHON) get-pip.py
+	$(PIP) install -r requirements.txt
 
 $(TOOLS_DIR):
 	mkdir $(TOOLS_DIR)
