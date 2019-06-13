@@ -20,6 +20,12 @@
 
 .EXPORT_ALL_VARIABLES:
 
+ENV_DIR      := .env
+ENV_BIN      := $(ENV_DIR)/bin
+PYTHON       := python3.7
+PIP          := $(ENV_BIN)/pip
+RST2HTML     := $(ENV_BIN)/rst2html.py
+PATH         := $(ENV_BIN):$(PATH) # Put rst2html on the PATH for Vale
 VALE_VERSION := 1.4.2
 VALE_URL     := https://github.com/errata-ai/vale/releases/download
 VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
@@ -65,6 +71,11 @@ help:
 	@ printf 'This Makefile is not supposed to be run manually.\n'
 	@ exit 1;
 
+$(RST2HTML):
+	'$(PYTHON)' -m venv '$(ENV_DIR)'
+	'$(PIP)' install --upgrade pip
+	'$(PIP)' install -r 'requirements.txt'
+
 $(TOOLS_DIR):
 	mkdir $(TOOLS_DIR)
 
@@ -81,7 +92,7 @@ $(VALE): $(TOOLS_DIR)
 endif
 
 .PHONY: vale
-vale: $(VALE)
+vale: $(RST2HTML) $(VALE)
 	@ if test ! -x $(VALE); then \
 	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
@@ -119,4 +130,5 @@ clean: $(clean_targets)
 
 .PHONY: cleantools
 clean-all: clean
+	rm -rf $(ENV_DIR)
 	rm -rf $(TOOLS_DIR)

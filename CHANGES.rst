@@ -10,6 +10,7 @@ Unreleased
 - Add lint-watch target using fswatch
 - Switch to using pre-built Vale binaries
 - Added Travis CI integration
+- Automatically install Python dependencies
 
 
 0.0.1 - 2019/06/11
