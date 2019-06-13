@@ -7,7 +7,8 @@ Unreleased
 ==========
 
 - Implement lint file based testing approach
-- Add lintdev target using fswatch
+- Add lint-watch target using fswatch
+- Switch to using pre-built Vale binaries
 
 0.0.1 - 2019/06/11
 ==================

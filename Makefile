@@ -20,7 +20,7 @@
 
 .EXPORT_ALL_VARIABLES:
 
-ROOTDIR  = $(abspath $(CURDIR))
+ROOTDIR := $(abspath $(CURDIR))
 
 # Default target
 .PHONY: help
@@ -29,27 +29,27 @@ help:
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
-	@ printf '\033[34m  lint       \033[00m Lint the documentation\n'
+	@ printf '\033[34m  lint        \033[00m Lint the documentation\n'
 	@ echo
-	@ printf '\033[34m  lintdev    \033[00m Lint the documentation (and watch'
-	@ printf                              ' for changes)\n'
+	@ printf '\033[34m  lint-watch  \033[00m Lint the documentation (and watch'
+	@ printf                               ' for changes)\n'
 	@ echo
-	@ printf '\033[34m  clean      \033[00m Clean the lint files\n'
+	@ printf '\033[34m  clean       \033[00m Clean the lint files\n'
 	@ echo
-	@ printf '\033[34m  distclean  \033[00m Clean the build infrastructure\n'
+	@ printf '\033[34m  clean-all   \033[00m Clean everything\n'
 
 .PHONY: lint
 lint:
 	$(MAKE) -f rules.mk lint
 
-.PHONY: lintdev
-lintdev:
-	$(MAKE) -f rules.mk lintdev
+.PHONY: lint-watch
+lint-watch:
+	$(MAKE) -f rules.mk lint-watch
 
 .PHONY: clean
 clean:
 	$(MAKE) -f rules.mk clean
 
 .PHONY: distclean
-distclean:
-	$(MAKE) -f rules.mk distclean
+clean-all:
+	$(MAKE) -f rules.mk clean-all

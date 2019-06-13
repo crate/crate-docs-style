@@ -45,4 +45,4 @@ printf "Linting: \033[35m$SOURCE_FILE\033[00m\n"
 echo "# Vale" > $LINT_FILE
 printf "%0.s#" {1..79} >> $LINT_FILE
 echo >> $LINT_FILE
-run_log $VALE --config=vale/config.ini $SOURCE_FILE
+run_log $VALE $SOURCE_FILE

@@ -20,16 +20,16 @@
 
 .EXPORT_ALL_VARIABLES:
 
-GO              = go
-GODIR           = .go
-GOPATH          = $(CURDIR)/$(GODIR) # Must be absolute
-RETOOLREPO      = github.com/twitchtv/retool
-RETOOL          = $(GODIR)/bin/retool
-TOOLSPATH       = .tools
-RETOOLOPTS      = -base-dir=. -tool-dir=$(TOOLSPATH)
-VALE            = $(TOOLSPATH)/bin/vale
-LINT            = bin/lint
-FSWATCH         = fswatch
+VALE_VERSION := 1.4.2
+VALE_URL     := https://github.com/errata-ai/vale/releases/download
+VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
+VALE_LINUX   := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
+VALE_MACOS   := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
+VALE_WIN     := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
+TOOLS_DIR    := .tools
+VALE         := $(TOOLS_DIR)/vale --config=$(CURDIR)_vale.ini
+LINT         := bin/lint
+FSWATCH      := fswatch
 
 # This file is designed so that it can be run from a any directory within a
 # project, so the ROOTDIR (i.e., where to look for RST files) must be set
@@ -39,14 +39,24 @@ else
 $(error ROOTDIR must be set)
 endif
 
+# Figure out the OS
+ifeq ($(findstring ;,$(PATH)),;)
+    # Windows, but not POSIX environment`
+else
+    UNAME := $(shell uname 2>/dev/null || echo Unknown)
+    UNAME := $(patsubst CYGWIN%,Windows,$(UNAME))
+    UNAME := $(patsubst MSYS%,Windows,$(UNAME))
+    UNAME := $(patsubst MINGW%,Windows,$(UNAME))
+endif
+
 # Find all RST source files in the project (but skip the possible locations of
 # third-party dependencies)
 source_files := $(shell \
     cd '$(ROOTDIR)' && find . -not -path '*/\.*' -name '*\.rst' -type f)
 
 # Generate targets
-lint_targets = $(patsubst %,%.lint,$(source_files))
-clean_targets = $(patsubst %,%.clean,$(lint_targets))
+lint_targets := $(patsubst %,%.lint,$(source_files))
+clean_targets := $(patsubst %,%.clean,$(lint_targets))
 
 # Default target
 .PHONY: help
@@ -54,25 +64,41 @@ help:
 	@ printf 'This Makefile is not supposed to be run manually.\n'
 	@ exit 1;
 
-$(VALE):
-	@ if test ! -x "`which $(GO)`"; then \
-	    printf '\033[31mYou must have Go installed.\033[00m\n'; \
+$(TOOLS_DIR):
+	mkdir $(TOOLS_DIR)
+
+ifeq ($(UNAME),Linux)
+$(VALE): $(TOOLS_DIR)
+	curl -L $(VALE_URL)/$(VALE_LINUX) -o $(TOOLS_DIR)/$(VALE_LINUX)
+	cd $(TOOLS_DIR) && tar -xzf $(VALE_LINUX)
+endif
+
+ifeq ($(UNAME),Darwin)
+$(VALE): $(TOOLS_DIR)
+	curl -L $(VALE_URL)/$(VALE_MACOS) -o $(TOOLS_DIR)/$(VALE_MACOS)
+	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
+endif
+
+.PHONY: vale
+vale: $(VALE)
+	@ if test ! -x $(VALE); then \
+	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
 	fi
-	$(GO) get $(RETOOLREPO)
-	@ printf '\033[33mThis might take a few minutes. '
-	@ printf 'Please be patient!\033[00m\n'
-	$(RETOOL) $(RETOOLOPTS) sync
+
+.PHONY: tools
+tools: vale
 
 # Lint an RST file and dump the output
+.rst.lint: tools
 %.rst.lint: %.rst
 	$(LINT) '$<' '$@'
 
 .PHONY: lint
 lint: $(lint_targets)
 
-.PHONY: lintdev
-lintdev: lint
+.PHONY: lint-watch
+lint-watch: lint
 	@ if test ! -x "`which $(FSWATCH)`"; then \
 	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
 	    exit 1; \
@@ -86,12 +112,11 @@ lintdev: lint
 	@ # Fake the output so it's more readable
 	@ filename=`echo $@ | sed s,.clean$$,,` && \
 	    rm -f "$$filename" && \
-	    echo rm -f "$$filename"
+	    printf "rm -f $$filename\n"
 
 .PHONY: clean
 clean: $(clean_targets)
 
-.PHONY: distclean
-distclean: clean
-	rm -rf $(GOPATH)
-	rm -rf $(TOOLSPATH)
+.PHONY: cleantools
+clean-all: clean
+	rm -rf $(TOOLSDIR)
