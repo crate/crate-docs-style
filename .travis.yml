@@ -1,0 +1,5 @@
+language: base
+script:
+  - make lint
+notifications:
+  email: false

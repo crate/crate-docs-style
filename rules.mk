@@ -27,7 +27,8 @@ VALE_LINUX   := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS   := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN     := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 TOOLS_DIR    := .tools
-VALE         := $(TOOLS_DIR)/vale --config=$(CURDIR)_vale.ini
+VALE         := $(TOOLS_DIR)/vale
+VALE_OPTS    := --config=$(CURDIR)_vale.ini
 LINT         := bin/lint
 FSWATCH      := fswatch
 
@@ -90,12 +91,11 @@ vale: $(VALE)
 tools: vale
 
 # Lint an RST file and dump the output
-.rst.lint: tools
 %.rst.lint: %.rst
 	$(LINT) '$<' '$@'
 
 .PHONY: lint
-lint: $(lint_targets)
+lint: tools $(lint_targets)
 
 .PHONY: lint-watch
 lint-watch: lint
@@ -119,4 +119,4 @@ clean: $(clean_targets)
 
 .PHONY: cleantools
 clean-all: clean
-	rm -rf $(TOOLSDIR)
+	rm -rf $(TOOLS_DIR)

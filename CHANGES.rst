@@ -9,6 +9,7 @@ Unreleased
 - Implement lint file based testing approach
 - Add lint-watch target using fswatch
 - Switch to using pre-built Vale binaries
+- Added Travis CI integration
 
 
 0.0.1 - 2019/06/11
