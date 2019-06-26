@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+0.0.4 - 2019/06/26
+==================
+
 - Fix invokation of pip
 
 
