@@ -1,4 +1,8 @@
 language: base
+addons:
+  apt:
+    packages:
+    - python3.4-venv
 script:
   - make lint
 notifications:

@@ -72,11 +72,7 @@ help:
 	@ exit 1;
 
 $(RST2HTML):
-	$(PYTHON) -m venv $(ENV_DIR) --without-pip --system-site-packages
-	cd $(ENV_DIR) && \
-	    . bin/activate && \
-	    curl -O https://bootstrap.pypa.io/get-pip.py && \
-	    $(PYTHON) get-pip.py
+	$(PYTHON) -m venv $(ENV_DIR)
 	$(PIP) install -r requirements.txt
 
 $(TOOLS_DIR):
