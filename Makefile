@@ -20,7 +20,7 @@
 
 .EXPORT_ALL_VARIABLES:
 
-ROOTDIR := $(abspath $(CURDIR))
+ROOT_DIR := $(abspath $(CURDIR))
 
 # Default target
 .PHONY: help

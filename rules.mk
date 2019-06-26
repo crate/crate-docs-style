@@ -39,11 +39,11 @@ LINT         := bin/lint
 FSWATCH      := fswatch
 
 # This file is designed so that it can be run from a any directory within a
-# project, so the ROOTDIR (i.e., where to look for RST files) must be set
+# project, so the ROOT_DIR (i.e., where to look for RST files) must be set
 # explicitly
-ifdef ROOTDIR
+ifdef ROOT_DIR
 else
-$(error ROOTDIR must be set)
+$(error ROOT_DIR must be set)
 endif
 
 # Figure out the OS
@@ -59,7 +59,7 @@ endif
 # Find all RST source files in the project (but skip the possible locations of
 # third-party dependencies)
 source_files := $(shell \
-    cd '$(ROOTDIR)' && find . -not -path '*/\.*' -name '*\.rst' -type f)
+    cd '$(ROOT_DIR)' && find . -not -path '*/\.*' -name '*\.rst' -type f)
 
 # Generate targets
 lint_targets := $(patsubst %,%.lint,$(source_files))
