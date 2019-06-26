@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.0.2 - 2019/06/26
+==================
+
 - Implement lint file based testing approach
 - Add lint-watch target using fswatch
 - Switch to using pre-built Vale binaries
