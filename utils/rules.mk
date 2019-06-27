@@ -18,9 +18,18 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
+# This file is designed so that it can be run from any working directory.
+# Accordingly, STYLE_DIR (i.e., the directory this file is located in) must be
+# set explicitly so that supporting files can be found.
+ifdef STYLE_DIR
+else
+$(error STYLE_DIR must be set)
+endif
+
 .EXPORT_ALL_VARIABLES:
 
-ENV_DIR      := .env
+UTILS_DIR    := $(STYLE_DIR)/utils
+ENV_DIR      := $(UTILS_DIR)/.env
 ENV_BIN      := $(ENV_DIR)/bin
 PYTHON       := python3
 PIP          := $(ENV_BIN)/pip
@@ -32,19 +41,11 @@ VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
 VALE_LINUX   := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS   := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN     := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
-TOOLS_DIR    := .tools
+TOOLS_DIR    := $(UTILS_DIR)/.tools
 VALE         := $(TOOLS_DIR)/vale
-VALE_OPTS    := --config=$(CURDIR)_vale.ini
-LINT         := bin/lint
+VALE_OPTS    := --config=$(UTILS_DIR)/_vale.ini
+LINT         := $(UTILS_DIR)/bin/lint
 FSWATCH      := fswatch
-
-# This file is designed so that it can be run from a any directory within a
-# project, so the ROOT_DIR (i.e., where to look for RST files) must be set
-# explicitly
-ifdef ROOT_DIR
-else
-$(error ROOT_DIR must be set)
-endif
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
@@ -56,10 +57,10 @@ else
     UNAME := $(patsubst MINGW%,Windows,$(UNAME))
 endif
 
-# Find all RST source files in the project (but skip the possible locations of
-# third-party dependencies)
+# Find all RST source files in the current working directory (but skip the
+# possible locations of third-party dependencies)
 source_files := $(shell \
-    cd '$(ROOT_DIR)' && find . -not -path '*/\.*' -name '*\.rst' -type f)
+    find . -not -path '*/\.*' -name '*\.rst' -type f)
 
 # Generate targets
 lint_targets := $(patsubst %,%.lint,$(source_files))
@@ -73,19 +74,18 @@ help:
 
 $(RST2HTML):
 	$(PYTHON) -m venv $(ENV_DIR)
-	$(PIP) install -r requirements.txt
-
-$(TOOLS_DIR):
-	mkdir $(TOOLS_DIR)
+	$(PIP) install -r $(UTILS_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
-$(VALE): $(TOOLS_DIR)
+$(VALE):
+	mkdir -p $(TOOLS_DIR)
 	curl -L $(VALE_URL)/$(VALE_LINUX) -o $(TOOLS_DIR)/$(VALE_LINUX)
 	cd $(TOOLS_DIR) && tar -xzf $(VALE_LINUX)
 endif
 
 ifeq ($(UNAME),Darwin)
-$(VALE): $(TOOLS_DIR)
+$(VALE):
+	mkdir -p $(TOOLS_DIR)
 	curl -L $(VALE_URL)/$(VALE_MACOS) -o $(TOOLS_DIR)/$(VALE_MACOS)
 	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
 endif

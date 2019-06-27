@@ -20,7 +20,9 @@
 
 .EXPORT_ALL_VARIABLES:
 
-ROOT_DIR := $(abspath $(CURDIR))
+ROOT_DIR   := .
+STYLE_DIR  := .style
+STYLE_MAKE := $(MAKE) -C $(ROOT_DIR) -f $(STYLE_DIR)/utils/rules.mk
 
 # Default target
 .PHONY: help
@@ -38,18 +40,22 @@ help:
 	@ echo
 	@ printf '\033[34m  clean-all   \033[00m Clean everything\n'
 
+$(STYLE_DIR):
+	mkdir -p $@
+	cp -R utils $@/utils
+
 .PHONY: lint
-lint:
-	$(MAKE) -f rules.mk lint
+lint: $(STYLE_DIR)
+	@ $(STYLE_MAKE) $@
 
 .PHONY: lint-watch
-lint-watch:
-	$(MAKE) -f rules.mk lint-watch
+lint-watch: $(STYLE_DIR)
+	@ $(STYLE_MAKE) $@
 
 .PHONY: clean
-clean:
-	$(MAKE) -f rules.mk clean
+clean: $(STYLE_DIR)
+	@ $(STYLE_MAKE) $@
 
-.PHONY: distclean
-clean-all:
-	$(MAKE) -f rules.mk clean-all
+.PHONY: clean-all
+clean-all: clean
+	rm -rf $(STYLE_DIR)
