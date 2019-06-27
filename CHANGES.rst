@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.0 - 2019/06/27
+==================
+
 - Use a .style directory for reliable self-testing
 
 
