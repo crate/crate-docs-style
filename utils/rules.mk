@@ -66,6 +66,7 @@ help:
 
 $(RST2HTML):
 	$(PYTHON) -m venv $(ENV_DIR)
+	$(PIP) install --upgrade pip
 	$(PIP) install -r $(LOCAL_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
