@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.3 - 2019/06/28
+==================
+
 - Specify Python 3.7
 
 
