@@ -1,9 +1,28 @@
-language: base
-addons:
-  apt:
-    packages:
-    - python3.4-venv
-script:
-  - make lint
 notifications:
   email: false
+
+docs: &docs
+  stage: "Documentation"
+  language: generic
+  script:
+    - make check
+
+matrix:
+  include:
+
+    - <<: *docs
+      name: "Python 3.7"
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+          packages:
+            - python3.7-dev
+            - python3.7-venv
+    - <<: *docs
+      name: "Python 3.7"
+      os: osx
+      osx_image: xcode10.2
+
+

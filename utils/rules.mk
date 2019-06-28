@@ -23,8 +23,8 @@
 LOCAL_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ENV_DIR      := $(LOCAL_DIR)/.env
 ENV_BIN      := $(ENV_DIR)/bin
-PYTHON       := python3
-PIP          := $(ENV_BIN)/pip
+PYTHON       := python3.7
+PIP          := $(ENV_BIN)/pip3.7
 RST2HTML     := $(ENV_BIN)/rst2html.py
 PATH         := $(ENV_BIN):$(PATH) # Put rst2html on the PATH for Vale
 VALE_VERSION := 1.4.2
