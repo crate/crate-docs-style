@@ -6,8 +6,13 @@ Changes
 Unreleased
 ==========
 
+
+0.1.2 - 2019/06/28
+==================
+
 - Removed out-of-date comments
 - Standardized target names
+
 
 0.1.1 - 2019/06/28
 ==================
