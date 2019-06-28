@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.1 - 2019/06/28
+==================
+
 - Drop need to use STYLE_DIR environment variable
 
 
