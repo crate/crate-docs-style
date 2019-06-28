@@ -18,10 +18,6 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
-# This file is designed so that it can be run from any working directory.
-# Accordingly, STYLE_DIR (i.e., the directory this file is located in) must be
-# set explicitly so that supporting files can be found.
-
 .EXPORT_ALL_VARIABLES:
 
 UTILS_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))

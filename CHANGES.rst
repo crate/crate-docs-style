@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Removed out-of-date comments
+
 
 0.1.1 - 2019/06/28
 ==================
