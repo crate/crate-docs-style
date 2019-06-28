@@ -21,14 +21,10 @@
 # This file is designed so that it can be run from any working directory.
 # Accordingly, STYLE_DIR (i.e., the directory this file is located in) must be
 # set explicitly so that supporting files can be found.
-ifdef STYLE_DIR
-else
-$(error STYLE_DIR must be set)
-endif
 
 .EXPORT_ALL_VARIABLES:
 
-UTILS_DIR    := $(STYLE_DIR)/utils
+UTILS_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ENV_DIR      := $(UTILS_DIR)/.env
 ENV_BIN      := $(ENV_DIR)/bin
 PYTHON       := python3
@@ -127,7 +123,7 @@ lint-watch: lint
 .PHONY: clean
 clean: $(clean_targets)
 
-.PHONY: cleantools
+.PHONY: clean-all
 clean-all: clean
 	rm -rf $(ENV_DIR)
 	rm -rf $(TOOLS_DIR)
