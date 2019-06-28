@@ -20,9 +20,13 @@
 
 .EXPORT_ALL_VARIABLES:
 
-ROOT_DIR   := .
-STYLE_DIR  := .style
-STYLE_MAKE := $(MAKE) -C $(ROOT_DIR) -f $(STYLE_DIR)/utils/rules.mk
+# `ROOT_RST_DIR` is where to look for RST files
+ROOT_RST_DIR   := .
+STYLE_DIR      := .style
+# `STYLE_DIR_ROOT` is path to `STYLE_DIR` from `ROOT_RST_DIR`
+STYLE_DIR_ROOT := $(STYLE_DIR)
+STYLE_RULES    := $(STYLE_DIR_ROOT)/utils/rules.mk
+STYLE_MAKE     := $(MAKE) -C $(ROOT_RST_DIR) -f $(STYLE_RULES)
 
 # Default target
 .PHONY: help
@@ -31,14 +35,13 @@ help:
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
-	@ printf '\033[34m  lint        \033[00m Lint the documentation\n'
+	@ printf '\033[35m  check       \033[00m Build, test, and lint the'
+	@ printf                               ' documentation (run by CI)\n'
 	@ echo
-	@ printf '\033[34m  lint-watch  \033[00m Lint the documentation (and watch'
-	@ printf                               ' for changes)\n'
+	@ printf '\033[35m  clean       \033[00m Clean up (e.g., remove lint'
+	@ printf                               ' files)\n'
 	@ echo
-	@ printf '\033[34m  clean       \033[00m Clean the lint files\n'
-	@ echo
-	@ printf '\033[34m  clean-all   \033[00m Clean everything\n'
+	@ printf '\033[35m  reset       \033[00m Reset the source\n'
 
 $(STYLE_DIR):
 	mkdir -p $@
@@ -48,14 +51,13 @@ $(STYLE_DIR):
 lint: $(STYLE_DIR)
 	@ $(STYLE_MAKE) $@
 
-.PHONY: lint-watch
-lint-watch: $(STYLE_DIR)
-	@ $(STYLE_MAKE) $@
+.PHONY: check
+check: lint
 
 .PHONY: clean
 clean: $(STYLE_DIR)
 	@ $(STYLE_MAKE) $@
 
-.PHONY: clean-all
-clean-all: clean
+.PHONY: reset
+reset: clean
 	rm -rf $(STYLE_DIR)

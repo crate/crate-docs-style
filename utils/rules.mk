@@ -20,8 +20,8 @@
 
 .EXPORT_ALL_VARIABLES:
 
-UTILS_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ENV_DIR      := $(UTILS_DIR)/.env
+LOCAL_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ENV_DIR      := $(LOCAL_DIR)/.env
 ENV_BIN      := $(ENV_DIR)/bin
 PYTHON       := python3
 PIP          := $(ENV_BIN)/pip
@@ -33,10 +33,10 @@ VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
 VALE_LINUX   := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS   := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN     := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
-TOOLS_DIR    := $(UTILS_DIR)/.tools
+TOOLS_DIR    := $(LOCAL_DIR)/.tools
 VALE         := $(TOOLS_DIR)/vale
-VALE_OPTS    := --config=$(UTILS_DIR)/_vale.ini
-LINT         := $(UTILS_DIR)/bin/lint
+VALE_OPTS    := --config=$(LOCAL_DIR)/_vale.ini
+LINT         := $(LOCAL_DIR)/bin/lint
 FSWATCH      := fswatch
 
 # Figure out the OS
@@ -66,7 +66,7 @@ help:
 
 $(RST2HTML):
 	$(PYTHON) -m venv $(ENV_DIR)
-	$(PIP) install -r $(UTILS_DIR)/requirements.txt
+	$(PIP) install -r $(LOCAL_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
 $(VALE):
