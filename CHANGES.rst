@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.4 - 2019/07/01
+==================
+
 - Add documentation stub for dogfooding purposes
 - Add link to GitHub in Makefile comment
 - Touch source files when the lint fails so they get picked up by Make
