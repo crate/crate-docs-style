@@ -11,6 +11,7 @@ Unreleased
 - Touch source files when the lint fails so they get picked up by Make
   for linting again
 - Fix dependencies for `dev` target
+- Fix `lint-watch` target
 
 
 0.1.3 - 2019/06/28
