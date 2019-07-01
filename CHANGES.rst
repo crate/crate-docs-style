@@ -7,6 +7,7 @@ Unreleased
 ==========
 
 - Add documentation stub for dogfooding purposes
+- Add link to GitHub in Makefile comment
 
 
 0.1.3 - 2019/06/28

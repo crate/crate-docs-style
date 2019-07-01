@@ -18,6 +18,13 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
+# This file provides a standard Crate documentation build system
+#
+# The most up-to-date version of this Makefile can be found in the
+# crate-docs-style repository:
+#
+#   https://github.com/crate/crate-docs-style/blob/master/docs/Makefile
+
 .EXPORT_ALL_VARIABLES:
 
 # `ROOT_RST_DIR` is where to look for RST files
@@ -44,7 +51,7 @@ FSWATCH         := fswatch
 # Default target
 .PHONY: help
 help:
-	@ printf 'Documentation Utils\n'
+	@ printf 'Crate Documentation Build System\n'
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
