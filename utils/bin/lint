@@ -41,6 +41,9 @@ run_log () {
         append_to_log
     else
         append_to_log
+        # Touch source files when the lint fails so they get picked up by Make
+        # for linting again
+        sleep 1 && touch $SOURCE_FILE
         exit 1
     fi
 }
