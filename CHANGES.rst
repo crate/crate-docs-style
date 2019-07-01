@@ -10,6 +10,7 @@ Unreleased
 - Add link to GitHub in Makefile comment
 - Touch source files when the lint fails so they get picked up by Make
   for linting again
+- Fix dependencies for `dev` target
 
 
 0.1.3 - 2019/06/28
