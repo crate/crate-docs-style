@@ -26,7 +26,6 @@ ENV_BIN      := $(ENV_DIR)/bin
 PYTHON       := python3.7
 PIP          := $(ENV_BIN)/pip3.7
 RST2HTML     := $(ENV_BIN)/rst2html.py
-PATH         := $(ENV_BIN):$(PATH) # Put rst2html on the PATH for Vale
 VALE_VERSION := 1.4.2
 VALE_URL     := https://github.com/errata-ai/vale/releases/download
 VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
