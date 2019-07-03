@@ -141,7 +141,7 @@ Makefile:
 
 .PHONY: clean
 clean:
-	@ if test -d $(STYLE_DIR); then \
+	@ if test -f $(STYLE_DIR)/rules.mk; then \
 	    $(STYLE_MAKE) clean; \
 	fi
 
