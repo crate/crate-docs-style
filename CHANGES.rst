@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Move PATH manipulation to lint script
+
 
 0.1.4 - 2019/07/01
 ==================
