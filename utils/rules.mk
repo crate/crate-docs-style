@@ -36,11 +36,10 @@ TOOLS_DIR    := $(LOCAL_DIR)/.tools
 VALE         := $(TOOLS_DIR)/vale
 VALE_OPTS    := --config=$(LOCAL_DIR)/_vale.ini
 LINT         := $(LOCAL_DIR)/bin/lint
-FSWATCH      := fswatch
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
-    # Windows, but not POSIX environment`
+    # Windows, but not POSIX environment
 else
     UNAME := $(shell uname 2>/dev/null || echo Unknown)
     UNAME := $(patsubst CYGWIN%,Windows,$(UNAME))
@@ -98,15 +97,6 @@ tools: vale
 
 .PHONY: lint
 lint: tools $(lint_targets)
-
-.PHONY: lint-watch
-lint-watch: lint
-	@ if test ! -x "`which $(FSWATCH)`"; then \
-	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
-	    exit 1; \
-	fi
-	@ printf '\033[33mWatching for changes...\033[00m\n'
-	@ $(FSWATCH) -0 $(source_files) | xargs -0 -I {} $(LINT) {}
 
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames
