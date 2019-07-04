@@ -40,7 +40,7 @@ BUILD_DIR       := .build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
 STYLE_REPO      := https://github.com/crate/crate-docs-style.git
-STYLE_VERSION   :=
+STYLE_VERSION   := 0.1.5
 STYLE_DIR       := .style
 # `STYLE_DIR_ROOT` is the path to `STYLE_DIR` from `ROOT_RST_DIR`
 STYLE_DIR_ROOT  := docs/$(STYLE_DIR)

@@ -7,7 +7,7 @@ Unreleased
 ==========
 
 - Move PATH manipulation to lint script
-
+- Include latest release number in reference `doc/Makefile`
 
 0.1.4 - 2019/07/01
 ==================
