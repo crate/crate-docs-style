@@ -1,6 +1,7 @@
 # Standard packages needed for the docs
 ###############################################################################
 
+crate-docs-theme
 sphinx-autobuild
 sphinx-sitemap
 

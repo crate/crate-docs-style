@@ -24,5 +24,3 @@ matrix:
       name: "Python 3.7"
       os: osx
       osx_image: xcode10.2
-
-
