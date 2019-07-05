@@ -66,7 +66,7 @@ help:
 	@ echo
 	@ printf '\033[36m  clean  \033[00m Clean up (e.g., remove lint files)\n'
 	@ echo
-	@ printf '\033[36m  reset  \033[00m Reset the source\n'
+	@ printf '\033[36m  reset  \033[00m Reset the build system\n'
 
 
 $(SPHINXBUILD) $(SPHINXAUTOBUILD):
