@@ -1,4 +1,4 @@
-# from crate.theme.rtd.conf.foo import *
+from crate.theme.rtd.conf.standalone import *
 
 source_suffix = '.rst'
 
