@@ -143,13 +143,11 @@ Makefile:
 	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
 .PHONY: clean
-clean:
-	@ if test -f $(STYLE_DIR)/rules.mk; then \
-	    $(STYLE_MAKE) clean; \
-	fi
+clean: $(STYLE_DIR)
+	$(STYLE_MAKE) clean
 
 .PHONY: reset
-reset: clean
+reset:
 	rm -rf $(ENV_DIR)
 	rm -rf $(BUILD_DIR)
 	rm -rf $(STYLE_DIR)
