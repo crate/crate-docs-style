@@ -2,7 +2,7 @@
 
 source_suffix = '.rst'
 
-exclude_patterns = ['.*', '*.lint']
+exclude_patterns = ['.*', '*.lint', 'README.rst']
 
 master_doc = 'index'
 
