@@ -125,7 +125,7 @@ lint-watch: $(STYLE_DIR)
 	done || true
 
 .PHONY: dev
-dev: $(SPHINXAUTOBUILD) $(STYLE_DIR)
+dev: $(SPHINXAUTOBUILD) lint
 	@ if test ! -x "`which $(FSWATCH)`"; then \
 	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
 	    exit 1; \

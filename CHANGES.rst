@@ -6,6 +6,14 @@ Changes
 Unreleased
 ==========
 
+0.1.6 - 2019/07/05
+==================
+
+- Fix `dev` target prerequisites
+
+0.1.5 - 2019/07/03
+==================
+
 - Move PATH manipulation to lint script
 - Include latest release number in reference `doc/Makefile`
 - Activate the Python venv before running Sphinx
