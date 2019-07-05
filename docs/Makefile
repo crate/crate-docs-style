@@ -56,18 +56,18 @@ help:
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
-	@ printf '\033[36m  dev         \033[00m Run a Sphinx development server'
-	@ printf                               ' that builds and lints the\n'
-	@ printf '\033[36m              \033[00m documentation as you edit the'
-	@ printf                               ' source files\n'
+	@ printf '\033[36m  dev    \033[00m Run a Sphinx development server that'
+	@ printf                          ' builds and lints the \n'
+	@ printf '\033[36m         \033[00m documentation as you edit the source'
+	@ printf                          ' files\n'
 	@ echo
-	@ printf '\033[36m  check       \033[00m Build, test, and lint the'
-	@ printf                               ' documentation (run by CI)\n'
+	@ printf '\033[36m  check  \033[00m Build, test, and lint the'
+	@ printf                          ' documentation (run by CI)\n'
 	@ echo
-	@ printf '\033[36m  clean       \033[00m Clean up (e.g., remove lint'
-	@ printf                               ' files)\n'
+	@ printf '\033[36m  clean  \033[00m Clean up (e.g., remove lint files)\n'
 	@ echo
-	@ printf '\033[36m  reset       \033[00m Reset the source\n'
+	@ printf '\033[36m  reset  \033[00m Reset the source\n'
+
 
 $(SPHINXBUILD) $(SPHINXAUTOBUILD):
 	$(PYTHON) -m venv $(ENV_DIR)
