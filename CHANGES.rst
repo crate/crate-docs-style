@@ -8,6 +8,7 @@ Unreleased
 
 - Move PATH manipulation to lint script
 - Include latest release number in reference `doc/Makefile`
+- Activate the Python venv before running Sphinx
 
 0.1.4 - 2019/07/01
 ==================

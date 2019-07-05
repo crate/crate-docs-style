@@ -31,6 +31,7 @@
 ROOT_RST_DIR    := ..
 ENV_DIR         := .env
 ENV_BIN         := $(ENV_DIR)/bin
+ACTIVATE        := $(ENV_BIN)/activate
 PYTHON          := python3.7
 PIP             := $(ENV_BIN)/pip3.7
 SPHINXBUILD     := $(ENV_BIN)/sphinx-build
@@ -108,7 +109,8 @@ endif
 
 .PHONY: autobuild
 autobuild: $(SPHINXAUTOBUILD)
-	$(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
+	. $(ACTIVATE) && \
+	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
 .PHONY: lint
 lint: $(STYLE_DIR)
@@ -137,7 +139,8 @@ Makefile:
 
 # Route unknown targets to `sphinx-build`
 %: $(SPHINXBUILD)
-	$(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
+	. $(ACTIVATE) && \
+	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
 .PHONY: clean
 clean:
