@@ -70,5 +70,5 @@ Looking for more help?
 
 .. |gst-t| image:: https://img.shields.io/travis/crate/getting-started.svg?style=flat
      :target: https://travis-ci.org/crate/getting-started
-.. |gst-r| image:: https://readthedocs.org/projects/getting-started/badge/
-    :target: https://readthedocs.org/projects/getting-started/
+.. |gst-r| image:: https://readthedocs.org/projects/crate-getting-started/badge/
+    :target: https://readthedocs.org/projects/crate-getting-started/
