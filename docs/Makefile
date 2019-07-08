@@ -49,8 +49,8 @@ AUTOBUILD_OPTS  := --re-ignore '^(?!.+\.rst$$)'
 BUILD_DIR       := .build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
+STYLE_JSON      := style.json
 STYLE_REPO      := https://github.com/crate/crate-docs-style.git
-STYLE_VERSION   := 0.1.9
 STYLE_DIR       := .style
 STYLE_DIR_ROOT  := $(DOCS_DIR)/$(STYLE_DIR)
 STYLE_RULES     := $(STYLE_DIR_ROOT)/utils/rules.mk
@@ -99,17 +99,20 @@ $(VALE):
 	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
 endif
 
+# Parse JSON file for version
+STYLE_VERSION = $(shell cat $(STYLE_JSON) | \
+    python -c 'import json, sys; print(json.load(sys.stdin)["message"])')
+
 ifeq ($(STYLE_VERSION),)
+$(error No version specified in $(STYLE_JSON))
+endif
+
+ifeq ($(wildcard $(TOP_DIR)/utils/rules.mk),)
 # The documentation for the crate-docs-style project fakes an install of its
 # own code so that it can test itself
 $(STYLE_DIR):
-	@ if test ! -d ../utils; then \
-	    printf '\033[31mYou must set `STYLE_VERSION` to lint the '; \
-	    printf 'documentation.\033[00m\n'; \
-	    exit 1; \
-	fi
 	mkdir -p $@
-	cp -R ../utils $@/utils
+	cp -R $(TOP_DIR)/utils $@/utils
 else
 # The documentation for all other projects must install a versioned copy of the
 # crate-docs-style project
