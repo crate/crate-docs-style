@@ -27,10 +27,10 @@
 
 .EXPORT_ALL_VARIABLES:
 
-# By default, we  run commands from the the `docs` directory so that the
+# By default, we run commands from the the `docs` directory so that the
 # commands output by `make` can be run if you copy and paste them. However, we
-# must jump up to the top-level directory of the repository for two
-# specific commands (see below).
+# must jump up to the top-level directory of the repository for two specific
+# commands (see below).
 #
 # Because of this, we specify `TOP_DIR` and `DOCS_DIR` so that Make can find
 # its way around.
