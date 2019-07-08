@@ -77,7 +77,7 @@ help:
 	@ echo
 	@ printf '\033[36m  reset  \033[00m Reset the source\n'
 
-$(SPHINXBUILD) $(SPHINXAUTOBUILD):
+$(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
@@ -119,10 +119,7 @@ $(STYLE_DIR):
 endif
 
 .PHONY: autobuild
-autobuild:
-	@ if test ! -x `. $(ACTIVATE) && which $(SPHINXAUTOBUILD)`; then \
-	    $(MAKE) $(SPHINXAUTOBUILD); \
-	fi
+autobuild: $(ACTIVATE)
 	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
@@ -152,10 +149,7 @@ check: html linkcheck lint
 Makefile:
 
 # Route unknown targets to `sphinx-build`
-%:
-	@ if test ! -x `. $(ACTIVATE) && which $(SPHINXBUILD)`; then \
-	    $(MAKE) $(SPHINXBUILD); \
-	fi
+%: $(ACTIVATE)
 	. $(ACTIVATE) && \
 	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
