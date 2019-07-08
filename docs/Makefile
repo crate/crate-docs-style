@@ -27,10 +27,18 @@
 
 .EXPORT_ALL_VARIABLES:
 
-# `ROOT_DIR` is the root of the repository
-ROOT_DIR        := ..
-# `THIS_DIR` is the path to the parent directory of this file from `ROOT_DIR`
-THIS_DIR        := docs
+# By default, we  run commands from the the `docs` directory so that the
+# commands output by `make` can be run if you copy and paste them. However, we
+# must jump up to the top-level directory of the repository for two
+# specific commands (see below).
+#
+# Because of this, we specify `TOP_DIR` and `DOCS_DIR` so that Make can find
+# its way around.
+
+# `TOP_DIR` is the top-level directory of the repository
+TOP_DIR         := ..
+# `DOCS_DIR` is the path to `docs` from `TOP_DIR`
+DOCS_DIR        := docs
 ENV_DIR         := .env
 ENV_BIN         := $(ENV_DIR)/bin
 ACTIVATE        := $(ENV_BIN)/activate
@@ -45,9 +53,10 @@ SPHINX_OPTS     := -W -n
 STYLE_REPO      := https://github.com/crate/crate-docs-style.git
 STYLE_VERSION   := 0.1.6
 STYLE_DIR       := .style
-STYLE_DIR_ROOT  := $(THIS_DIR)/$(STYLE_DIR)
+STYLE_DIR_ROOT  := $(DOCS_DIR)/$(STYLE_DIR)
 STYLE_RULES     := $(STYLE_DIR_ROOT)/utils/rules.mk
-STYLE_MAKE      := $(MAKE) -C $(ROOT_DIR) -f $(STYLE_RULES)
+# Change to `TOP_DIR` so we can process all RST files in the repository
+STYLE_MAKE      := $(MAKE) -C $(TOP_DIR) -f $(STYLE_RULES)
 FSWATCH         := fswatch
 
 # Default target
@@ -72,9 +81,9 @@ help:
 $(SPHINXBUILD) $(SPHINXAUTOBUILD):
 	$(PYTHON) -m venv $(ENV_DIR)
 	$(PIP) install --upgrade pip
-	@ # Change to `ROOT_DIR` to mimic how Read the Docs does it
-	cd $(ROOT_DIR) && \
-	    $(THIS_DIR)/$(PIP) install -r $(THIS_DIR)/requirements.txt
+	@ # Change to `TOP_DIR` to mimic how Read the Docs does it
+	cd $(TOP_DIR) && \
+	    $(DOCS_DIR)/$(PIP) install -r $(DOCS_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
 $(VALE):
