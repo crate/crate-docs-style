@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Add `style.json` for use with https://shields.io/endpoint for creating GitHub
+  badges
+
 
 0.1.9 - 2019/07/08
 ==================
