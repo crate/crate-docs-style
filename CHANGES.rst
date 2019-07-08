@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.8 - 2019/07/08
+==================
+
 - Fix use of venv targets
 - Improve file ignoring for `sphinx-autobuild`
 
