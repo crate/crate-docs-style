@@ -22,10 +22,10 @@
 
 LOCAL_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ENV_DIR      := $(LOCAL_DIR)/.env
-ENV_BIN      := $(ENV_DIR)/bin
+ACTIVATE     := $(ENV_DIR)/bin/activate
 PYTHON       := python3.7
-PIP          := $(ENV_BIN)/pip3.7
-RST2HTML     := $(ENV_BIN)/rst2html.py
+PIP          := $(PYTHON) -m pip
+RST2HTML     := rst2html.py
 VALE_VERSION := 1.4.2
 VALE_URL     := https://github.com/errata-ai/vale/releases/download
 VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
@@ -64,8 +64,10 @@ help:
 
 $(RST2HTML):
 	$(PYTHON) -m venv $(ENV_DIR)
-	$(PIP) install --upgrade pip
-	$(PIP) install -r $(LOCAL_DIR)/requirements.txt
+	. $(ACTIVATE) && \
+	    $(PIP) install --upgrade pip
+	. $(ACTIVATE) && \
+	    $(PIP) install -r $(LOCAL_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
 $(VALE):

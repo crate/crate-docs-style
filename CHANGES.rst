@@ -6,10 +6,14 @@ Changes
 Unreleased
 ==========
 
+- Use `activate`, don't hardcode venv paths
+
+
 0.1.6 - 2019/07/05
 ==================
 
 - Fix `dev` target prerequisites
+
 
 0.1.5 - 2019/07/03
 ==================

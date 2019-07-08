@@ -40,12 +40,11 @@ TOP_DIR         := ..
 # `DOCS_DIR` is the path to `docs` from `TOP_DIR`
 DOCS_DIR        := docs
 ENV_DIR         := .env
-ENV_BIN         := $(ENV_DIR)/bin
-ACTIVATE        := $(ENV_BIN)/activate
+ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3.7
-PIP             := $(ENV_BIN)/pip3.7
-SPHINXBUILD     := $(ENV_BIN)/sphinx-build
-SPHINXAUTOBUILD := $(ENV_BIN)/sphinx-autobuild
+PIP             := $(PYTHON) -m pip
+SPHINXBUILD     := sphinx-build
+SPHINXAUTOBUILD := sphinx-autobuild
 AUTOBUILD_OPTS  := --ignore '.*' --ignore '*.lint'
 BUILD_DIR       := .build
 SPHINX_ARGS     := . $(BUILD_DIR)
@@ -80,10 +79,11 @@ help:
 
 $(SPHINXBUILD) $(SPHINXAUTOBUILD):
 	$(PYTHON) -m venv $(ENV_DIR)
-	$(PIP) install --upgrade pip
+	. $(ACTIVATE) && \
+	    $(PIP) install --upgrade pip
 	@ # Change to `TOP_DIR` to mimic how Read the Docs does it
-	cd $(TOP_DIR) && \
-	    $(DOCS_DIR)/$(PIP) install -r $(DOCS_DIR)/requirements.txt
+	. $(ACTIVATE) && cd $(TOP_DIR) && \
+	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
 $(VALE):
