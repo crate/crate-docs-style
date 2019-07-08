@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.7 - 2019/07/08
+==================
+
 - Use `activate`, don't hardcode venv paths
 
 
@@ -22,6 +26,7 @@ Unreleased
 - Include latest release number in reference `doc/Makefile`
 - Activate the Python venv before running Sphinx
 - Separate `clean` and `reset` targets
+
 
 0.1.4 - 2019/07/01
 ==================
