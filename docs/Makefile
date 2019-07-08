@@ -45,7 +45,7 @@ PYTHON          := python3.7
 PIP             := $(PYTHON) -m pip
 SPHINXBUILD     := sphinx-build
 SPHINXAUTOBUILD := sphinx-autobuild
-AUTOBUILD_OPTS  := --ignore '.*' --ignore '*.lint'
+AUTOBUILD_OPTS  := --re-ignore '^(?!.+\.rst$$)'
 BUILD_DIR       := .build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
@@ -103,7 +103,7 @@ ifeq ($(STYLE_VERSION),)
 # The documentation for the crate-docs-style project fakes an install of its
 # own code so that it can test itself
 $(STYLE_DIR):
-	@ if test ! -d ../utils; then\
+	@ if test ! -d ../utils; then \
 	    printf '\033[31mYou must set `STYLE_VERSION` to lint the '; \
 	    printf 'documentation.\033[00m\n'; \
 	    exit 1; \
@@ -119,7 +119,10 @@ $(STYLE_DIR):
 endif
 
 .PHONY: autobuild
-autobuild: $(SPHINXAUTOBUILD)
+autobuild:
+	@ if test ! -x `. $(ACTIVATE) && which $(SPHINXAUTOBUILD)`; then \
+	    $(MAKE) $(SPHINXAUTOBUILD); \
+	fi
 	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
@@ -134,7 +137,7 @@ lint-watch: $(STYLE_DIR)
 	done || true
 
 .PHONY: dev
-dev: $(SPHINXAUTOBUILD) lint
+dev: lint
 	@ if test ! -x "`which $(FSWATCH)`"; then \
 	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
 	    exit 1; \
@@ -149,7 +152,10 @@ check: html linkcheck lint
 Makefile:
 
 # Route unknown targets to `sphinx-build`
-%: $(SPHINXBUILD)
+%:
+	@ if test ! -x `. $(ACTIVATE) && which $(SPHINXBUILD)`; then \
+	    $(MAKE) $(SPHINXBUILD); \
+	fi
 	. $(ACTIVATE) && \
 	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 

@@ -19,14 +19,6 @@
 # these terms will supersede the license and you may use the software solely
 # pursuant to the terms of the relevant commercial agreement.
 
-if test ! -n "$ENV_BIN"; then
-    echo "ENV_BIN is not set."
-    exit 1
-fi
-
- # Put rst2html on the PATH for Vale
-export PATH=$ENV_BIN:$PATH
-
 if test ! -n "$VALE"; then
     echo "VALE is not set."
     exit 1

@@ -84,7 +84,10 @@ $(VALE):
 endif
 
 .PHONY: vale
-vale: $(RST2HTML) $(VALE)
+vale: $(VALE)
+	@ if test ! -x `. $(ACTIVATE) && which $(RST2HTML)`; then \
+	    $(MAKE) $(RST2HTML); \
+	fi
 	@ if test ! -x $(VALE); then \
 	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
@@ -95,7 +98,8 @@ tools: vale
 
 # Lint an RST file and dump the output
 %.rst.lint: %.rst
-	$(LINT) '$<' '$@'
+	. $(ACTIVATE) && \
+	    $(LINT) '$<' '$@'
 
 .PHONY: lint
 lint: tools $(lint_targets)

@@ -2,7 +2,7 @@ from crate.theme.rtd.conf.standalone import *
 
 source_suffix = '.rst'
 
-exclude_patterns = ['.*', '*.lint', 'README.rst']
+exclude_patterns = ['.*', 'README.rst']
 
 master_doc = 'index'
 
