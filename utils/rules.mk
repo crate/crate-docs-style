@@ -62,7 +62,7 @@ help:
 	@ printf 'This Makefile is not supposed to be run manually.\n'
 	@ exit 1;
 
-$(RST2HTML):
+$(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
@@ -84,10 +84,7 @@ $(VALE):
 endif
 
 .PHONY: vale
-vale: $(VALE)
-	@ if test ! -x `. $(ACTIVATE) && which $(RST2HTML)`; then \
-	    $(MAKE) $(RST2HTML); \
-	fi
+vale: $(ACTIVATE) $(VALE)
 	@ if test ! -x $(VALE); then \
 	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
