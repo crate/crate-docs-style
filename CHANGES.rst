@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Improve Make targets
+
 
 0.1.10 - 2019/07/09
 ===================

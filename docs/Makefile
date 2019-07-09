@@ -70,12 +70,14 @@ help:
 	@ printf '\033[36m         \033[00m documentation as you edit the source'
 	@ printf                          ' files\n'
 	@ echo
+	@ printf '\033[36m  html   \033[00m Build the static HTML output\n'
+	@ echo
 	@ printf '\033[36m  check  \033[00m Build, test, and lint the'
-	@ printf                          ' documentation (run by CI)\n'
+	@ printf                          ' documentation\n'
 	@ echo
-	@ printf '\033[36m  clean  \033[00m Clean up (e.g., remove lint files)\n'
+	@ printf '\033[36m  delint \033[00m Remove any `*.lint` files\n'
 	@ echo
-	@ printf '\033[36m  reset  \033[00m Reset the source\n'
+	@ printf '\033[36m  reset  \033[00m Reset the build cache\n'
 
 $(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
@@ -161,9 +163,9 @@ Makefile:
 	. $(ACTIVATE) && \
 	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
-.PHONY: clean
-clean: $(STYLE_DIR)
-	$(STYLE_MAKE) clean
+.PHONY: delint
+delint: $(STYLE_DIR)
+	$(STYLE_MAKE) delint
 
 .PHONY: reset
 reset:

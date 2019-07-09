@@ -54,7 +54,7 @@ source_files := $(shell \
 
 # Generate targets
 lint_targets := $(patsubst %,%.lint,$(source_files))
-clean_targets := $(patsubst %,%.clean,$(lint_targets))
+delint_targets := $(patsubst %,%.delint,$(lint_targets))
 
 # Default target
 .PHONY: help
@@ -103,16 +103,16 @@ lint: tools $(lint_targets)
 
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames
-%.clean:
+%.delint:
 	@ # Fake the output so it's more readable
-	@ filename=`echo $@ | sed s,.clean$$,,` && \
+	@ filename=`echo $@ | sed s,.delint$$,,` && \
 	    rm -f "$$filename" && \
 	    printf "rm -f $$filename\n"
 
-.PHONY: clean
-clean: $(clean_targets)
+.PHONY: delint
+delint: $(delint_targets)
 
-.PHONY: clean-all
-clean-all: clean
+.PHONY: reset
+reset:
 	rm -rf $(ENV_DIR)
 	rm -rf $(TOOLS_DIR)
