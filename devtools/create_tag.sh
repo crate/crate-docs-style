@@ -30,7 +30,7 @@ fi
 echo "Fetching origin..."
 git fetch origin > /dev/null
 
-REGEXP='^\d+\.\d\+.\d+- \d{4}/\d{2}/\d{2}$'
+REGEXP='^\d+\.\d+\.\d+ - \d{4}/\d{2}/\d{2}$'
 VERSION=`grep -E "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
 echo "Found version $VERSION."
 
