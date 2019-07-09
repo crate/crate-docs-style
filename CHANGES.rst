@@ -6,8 +6,13 @@ Changes
 Unreleased
 ==========
 
+
+0.1.10 - 2019/07/09
+===================
+
 - Add `style.json` for use with https://shields.io/endpoint for creating GitHub
   badges
+- Fixed conditional `$(STYLE_DIR)` rules
 
 
 0.1.9 - 2019/07/08

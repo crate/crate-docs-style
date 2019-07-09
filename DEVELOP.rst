@@ -10,7 +10,7 @@ To create a new release, you must:
 
 - Add a section for the new version in the ``CHANGES.txt`` file
 
-- Update `STYLE_VERSION` in `docs/Makefile`
+- Update `message` in `docs/style.json` to the latest version
 
 - Commit your changes with a message like "Prepare release X.Y.Z"
 
