@@ -144,7 +144,7 @@ dev: lint
 	fi
 	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
 	@ # Both output to STDOUT and STDERR. To make this less confusing,
-	@ #`lint-watch` watches the sitemap file that Sphinx builds at the end of
+	@ # `lint-watch` watches the sitemap file that Sphinx builds at the end of
 	@ # each build iteration. So Sphinx should wake up first, and then the
 	@ # linter. The resulting output flows quite nicely.
 	$(MAKE) -j autobuild lint-watch
